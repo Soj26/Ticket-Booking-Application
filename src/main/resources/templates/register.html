@@ -1,26 +1,53 @@
-<form th:action="@{/register}" method="post">
-    <div>
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-    </div>
-    <div>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-    </div>
-    <div>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-    </div>
-    <div>
-        <label for="confirmPassword">Confirm Password:</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" required>
-    </div>
-    <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
-        <label for="role">Role:</label>
-        <select id="role" name="role">
-            <option value="USER">User</option>
-            <option value="ADMIN">Admin</option>
-        </select>
-    </div>
-    <button type="submit">Register</button>
-</form>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1>Registration</h1>
+
+    <form th:action="@{/register}" method="post">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
+        </div>
+        <div class="form-group" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+            <label for="role">Role:</label>
+            <select id="role" name="role" class="form-control">
+                <option value="USER">User</option>
+                <option value="ADMIN">Admin</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Register</button>
+        </div>
+    </form>
+
+    <!-- Error Message --><div th:if="${error != null}" class="alert alert-danger">
+    <p th:text="${error}"></p>
+</div>
+
+    <!-- Success Message -->
+    <<div th:if="${success != null}" class="alert alert-success">
+    <p th:text="${success}"></p>
+</div>
+
+</div>
+
+</body>
+</html>

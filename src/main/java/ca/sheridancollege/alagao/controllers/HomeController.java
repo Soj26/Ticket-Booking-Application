@@ -19,9 +19,10 @@ public class HomeController {
     private TicketDatabase tDa;
 
     @GetMapping("/register")
-    public String getRegistrationForm(Model model) {
+    public String getRegistrationForm() {
         return "register";
     }
+
 
     @PostMapping("/register")
     public String processRegister(@RequestParam String email,
@@ -39,8 +40,8 @@ public class HomeController {
             database.addUser(email, password, name);
             Long userId = database.findUserAccount(email).getUserID();
 
-            // Set the role to "User" for regular users
-            if (!model.getAttribute("role").equals("ADMIN")) {
+            // Set the role to "User" for regular users if not specified
+            if (role == null) {
                 role = "USER";
             }
 
@@ -48,11 +49,13 @@ public class HomeController {
             Long roleId = database.getRoleId("ROLE_" + role.toUpperCase());
             database.addRole(userId, roleId);
 
+            model.addAttribute("success", "Registration successful");
             return "redirect:/login";
         } catch (Exception e) {
             model.addAttribute("error", "Registration failed: " + e.getMessage());
             return "register";
         }
     }
+
 }
 
