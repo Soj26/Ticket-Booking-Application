@@ -1,5 +1,6 @@
 package ca.sheridancollege.alagao.security;
 
+import ca.sheridancollege.alagao.beans.User;
 import ca.sheridancollege.alagao.database.DatabaseAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,24 +17,20 @@ import java.util.List;
 public class UserDetailServiceImpl implements UserDetailsService {
 
     @Autowired
-    private DatabaseAccess da;
+    private DatabaseAccess database;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        ca.sheridancollege.alagao.beans.User user = da.findUserAccount(email);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = database.findUserAccount(username);
         if (user == null) {
-            System.out.println("User not found: " + email);
-            throw new UsernameNotFoundException("User with email " + email + " was not found in the database");
+            throw new UsernameNotFoundException("User not found: " + username);
         }
 
-        List<String> roleNameList = da.getRolesById(user.getUserID());
+        List<String> roleNameList = database.getRolesById(user.getUserID());
         List<GrantedAuthority> grantList = new ArrayList<>();
 
-        if (roleNameList != null) {
-            for (String role : roleNameList) {
-                GrantedAuthority authority = new SimpleGrantedAuthority(role);
-                grantList.add(authority);
-            }
+        for (String role : roleNameList) {
+            grantList.add(new SimpleGrantedAuthority(role));
         }
 
         return new org.springframework.security.core.userdetails.User(

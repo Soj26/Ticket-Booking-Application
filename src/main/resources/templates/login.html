@@ -1,33 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Login Page</title>
-  <link rel="stylesheet" href="css/styles.css">
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-
 <h1>Login here</h1>
 <div class="form-block">
-  <form method="post" th:action="@{/login}">
- <div th:if="${param.error}">
-    <div class="error">
-      Invalid Credentials
-    </div>
-  </div>
-    <div th:if="${param.logout}">
-      <div class="success">
-        You have been logged out
-      </div>
-    </div>
-    Email: <input type="email" name="username"><br>
-    Password: <input type="password" name="password"><br>
-    <input type="submit" value="Login" name="login-submit">
-
-  </form>
+    <form method="post" th:action="@{/login}">
+        <div th:if="${param.error}" class="error">
+            Invalid Credentials
+        </div>
+        <div th:if="${param.logout}" class="success">
+            You have been logged out
+        </div>
+        Email: <input type="email" name="username"><br>
+        Password: <input type="password" name="password"><br>
+        <input type="submit" value="Login">
+    </form>
 </div>
-
-
-<p><a th:href=@{/}>Back to home page</a></p>
+<p><a th:href="@{/}">Back to home page</a></p>
 </body>
 </html>

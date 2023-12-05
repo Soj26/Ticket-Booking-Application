@@ -43,16 +43,19 @@ public class DatabaseAccess {
     }
 
     public void addUser(String email, String password, String name) {
+        String encryptedPassword = passenc.encode(password);
+
         MapSqlParameterSource parameters = new MapSqlParameterSource();
+        parameters.addValue("email", email);
+        parameters.addValue("encryptedPassword", encryptedPassword);
+        parameters.addValue("name", name);
+
         String query = "INSERT INTO sec_user (email, encryptedPassword, enabled, balance, name, purchaseCount) "
                 + "VALUES (:email, :encryptedPassword, 1, 0.00, :name, 0)";
 
-        parameters.addValue("email", email);
-        parameters.addValue("encryptedPassword", passenc.encode(password));
-        parameters.addValue("name", name); // Adding the name parameter
-
         jdbc.update(query, parameters);
     }
+
     public void addRole(Long userId, Long roleId) {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("userID", userId);

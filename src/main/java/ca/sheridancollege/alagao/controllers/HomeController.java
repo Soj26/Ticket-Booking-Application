@@ -2,7 +2,6 @@ package ca.sheridancollege.alagao.controllers;
 
 import ca.sheridancollege.alagao.beans.User;
 import ca.sheridancollege.alagao.database.DatabaseAccess;
-import ca.sheridancollege.alagao.database.TicketDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,21 +14,17 @@ public class HomeController {
 
     @Autowired
     private DatabaseAccess database;
-    @Autowired
-    private TicketDatabase tDa;
 
     @GetMapping("/register")
     public String getRegistrationForm() {
         return "register";
     }
 
-
     @PostMapping("/register")
     public String processRegister(@RequestParam String email,
                                   @RequestParam String password,
                                   @RequestParam String confirmPassword,
                                   @RequestParam String name,
-                                  @RequestParam(required = false) String role,
                                   Model model) {
         if (!password.equals(confirmPassword)) {
             model.addAttribute("error", "Passwords do not match");
@@ -39,17 +34,10 @@ public class HomeController {
         try {
             database.addUser(email, password, name);
             Long userId = database.findUserAccount(email).getUserID();
-
-            // Set the role to "User" for regular users if not specified
-            if (role == null) {
-                role = "USER";
-            }
-
-            // Assuming getRoleId method is implemented in DatabaseAccess
-            Long roleId = database.getRoleId("ROLE_" + role.toUpperCase());
+            // Default role is USER, admin role should be assigned internally for security
+            Long roleId = database.getRoleId("ROLE_USER");
             database.addRole(userId, roleId);
 
-            model.addAttribute("success", "Registration successful");
             return "redirect:/login";
         } catch (Exception e) {
             model.addAttribute("error", "Registration failed: " + e.getMessage());
@@ -57,5 +45,8 @@ public class HomeController {
         }
     }
 
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
 }
-
