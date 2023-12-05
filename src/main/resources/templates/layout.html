@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Layout</title>
+  <!-- Include CSS and JS here -->
+</head>
+<body>
+
+<header th:replace="fragments/header :: header"></header>
+
+<nav th:replace="fragments/menu :: menu"></nav>
+
+<section>
+  <div th:fragment="content">
+    <!-- Placeholder for page-specific content -->
+  </div>
+</section>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+
+</body>
+</html>

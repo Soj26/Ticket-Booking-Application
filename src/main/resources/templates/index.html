@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!-- Head elements-->
+</head>
+<body>
+
+<!-- Insert header -->
+<div th:insert="fragments/header :: header"></div>
+
+<!-- Page content -->
+<main>
+  <h1>Welcome to the Ticket System</h1>
+  <div>
+    <h2>Available Tickets</h2>
+    <ul>
+      <li th:each="ticket : ${availableTickets}">
+        <span th:text="${ticket.flightDetails}">Flight Details</span>
+        - <span th:text="${ticket.price}">Price</span>
+        <!-- Add other ticket details you want to display -->
+      </li>
+    </ul>
+  </div>
+  <div>
+    <a th:href="@{/login}">Login</a> |
+    <a th:href="@{/register}">Register</a>
+  </div>
+</main>
+
+
+<!-- Insert footer -->
+<div th:insert="fragments/footer :: footer"></div>
+
+</body>
+</html>
