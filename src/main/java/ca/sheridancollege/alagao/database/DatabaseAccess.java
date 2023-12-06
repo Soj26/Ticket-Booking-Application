@@ -66,14 +66,10 @@ public class DatabaseAccess {
         try {
             jdbc.update(query, params);
         } catch (DuplicateKeyException e) {
-            // Handle the case where the role assignment already exists
-            // This is important to avoid trying to insert a duplicate role assignment
             System.out.println("Role already assigned to user: " + e.getMessage());
-            // Depending on your application's requirements, you might want to throw an exception or just log the error
         } catch (Exception e) {
-            // Handle other exceptions such as connectivity issues with the database
+
             System.out.println("Error in adding role to user: " + e.getMessage());
-            // Again, depending on your requirements, either handle the exception or rethrow it
         }
     }
     public Long getRoleId(String roleName) {
@@ -86,8 +82,59 @@ public class DatabaseAccess {
             return jdbc.queryForObject(query, params, Long.class);
         } catch (Exception e) {
             System.out.println("Error retrieving role ID: " + e.getMessage());
-            return null; // Or handle the exception as appropriate for your application
+            return null;
         }
     }
 
+    public void createUser(User user) {
+        String query = "INSERT INTO sec_user (email, encryptedPassword, enabled, name, balance, purchaseCount) " +
+                "VALUES (:email, :encryptedPassword, :enabled, :name, :balance, :purchaseCount)";
+        MapSqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("email", user.getEmail())
+                .addValue("encryptedPassword", user.getEncryptedPassword())
+                .addValue("enabled", user.getEnabled())
+                .addValue("name", user.getName())
+                .addValue("balance", user.getBalance())
+                .addValue("purchaseCount", user.getPurchaseCount());
+        jdbc.update(query, parameters);
+    }
+
+    // Method to update a user
+    public void updateUser(User user) {
+        String query = "UPDATE sec_user SET email = :email, encryptedPassword = :encryptedPassword, " +
+                "enabled = :enabled, name = :name, balance = :balance, purchaseCount = :purchaseCount " +
+                "WHERE userID = :userID";
+        MapSqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("userID", user.getUserID())
+                .addValue("email", user.getEmail())
+                .addValue("encryptedPassword", user.getEncryptedPassword())
+                .addValue("enabled", user.getEnabled())
+                .addValue("name", user.getName())
+                .addValue("balance", user.getBalance())
+                .addValue("purchaseCount", user.getPurchaseCount());
+        jdbc.update(query, parameters);
+    }
+    public void deleteUser(Long userID) {
+        String query = "DELETE FROM sec_user WHERE userID = :userID";
+        MapSqlParameterSource parameters = new MapSqlParameterSource().addValue("userID", userID);
+        jdbc.update(query, parameters);
+    }
+
+    // Method to associate a role with a user
+    public void addRoleToUser(Long userID, Long roleID) {
+        String query = "INSERT INTO user_role (userID, roleId) VALUES (:userID, :roleID)";
+        MapSqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("userID", userID)
+                .addValue("roleID", roleID);
+        jdbc.update(query, parameters);
+    }
+
+    // Method to remove a role from a user
+    public void removeRoleFromUser(Long userID, Long roleID) {
+        String query = "DELETE FROM user_role WHERE userID = :userID AND roleId = :roleID";
+        MapSqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("userID", userID)
+                .addValue("roleID", roleID);
+        jdbc.update(query, parameters);
+    }
 }
