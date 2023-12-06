@@ -11,20 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@RequestMapping("secured/user/")
 public class UserController {
 
     @Autowired
     private DatabaseAccess database;
 
-    // Mapping for admin dashboard
-    @GetMapping("/secured/admin/adminIndex")
-    public String adminDashboard(Model model) {
-
-        return "secured/admin/adminIndex";
-    }
-
-    // Mapping for user dashboard
-    @GetMapping("/secured/user/userIndex")
+    @GetMapping("/userIndex")
     public String userDashboard(Model model) {
         //User user = getCurrentAuthenticatedUser();
         // model.addAttribute("user", user);

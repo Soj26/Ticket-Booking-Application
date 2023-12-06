@@ -20,9 +20,9 @@ public class TicketController {
 
     @GetMapping("/")
     public String showIndex(Model model) {
-        List<Ticket> availableTickets = tDa.findAvailableTickets(); // This method should be implemented in your service layer
-        model.addAttribute("availableTickets", availableTickets);
-        return "/index"; // This should be the name of the root index template
+        List<Ticket> availableTickets = tDa.findAvailableTickets();
+        return "/index";
+
     }
 
 }
