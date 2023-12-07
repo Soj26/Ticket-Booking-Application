@@ -1,0 +1,50 @@
+/* Extend existing styles from mainIndex.css */
+
+/* Section styling */
+section {
+    margin-bottom: 30px;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: #2a2a2a; /* Darker background for tables */
+    color: #f0f0f0; /* Light text color */
+}
+
+table thead th {
+    padding: 10px;
+    background-color: #007bff;
+}
+
+table tbody td {
+    padding: 10px;
+    border-bottom: 1px solid #333;
+}
+
+/* Link styles */
+a {
+    color: #64b5f6;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #2196f3;
+}
+
+/* Logout and Return to Dashboard links */
+.logout-return a {
+    display: inline-block;
+    margin-top: 20px;
+    background-color: #333;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+.logout-return a:hover {
+    background-color: #444;
+}
+
+/* ... (other existing styles) */

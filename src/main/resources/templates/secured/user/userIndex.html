@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>User Dashboard</title>
-        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="css/header.css">
     </head>
     <body>
 
@@ -53,7 +53,8 @@
 
         <a th:href="@{/logout}">Logout</a>
     </main>
-
+    <a th:href="@{/logout}">Logout</a>
+    <a href="@{/secured/admin/adminIndex}">Return to Dashboard</a>
     <div th:insert="fragments/footer :: footer"></div>
 
     <script src="/js/script.js"></script>

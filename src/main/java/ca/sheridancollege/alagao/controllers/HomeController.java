@@ -1,52 +1,52 @@
 package ca.sheridancollege.alagao.controllers;
 
 import ca.sheridancollege.alagao.beans.User;
-import ca.sheridancollege.alagao.beans.Ticket;
 import ca.sheridancollege.alagao.database.DatabaseAccess;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/home")
 public class HomeController {
 
     @Autowired
     private DatabaseAccess database;
 
-    private static final String USER_REST_URL = "http://localhost:8080/api/v1/users";
-    private static final String TICKET_REST_URL = "http://localhost:8080/api/v1/tickets";
-    private final RestTemplate restTemplate = new RestTemplate();
-
-    @GetMapping("/")
-    public String index(Model model) {
-        ResponseEntity<User[]> usersResponse = restTemplate.getForEntity(USER_REST_URL, User[].class);
-        ResponseEntity<Ticket[]> ticketsResponse = restTemplate.getForEntity(TICKET_REST_URL, Ticket[].class);
-
-        model.addAttribute("userList", usersResponse.getBody());
-        model.addAttribute("ticketList", ticketsResponse.getBody());
-
-        return "index";
+    @GetMapping("/register")
+    public String getRegistrationForm() {
+        return "register";
     }
 
-    // ... Your existing methods like register, login, etc.
+    @PostMapping("/register")
+    public String processRegister(@RequestParam String email,
+                                  @RequestParam String password,
+                                  @RequestParam String confirmPassword,
+                                  @RequestParam String name,
+                                  Model model) {
+        if (!password.equals(confirmPassword)) {
+            model.addAttribute("error", "Passwords do not match");
+            return "register";
+        }
 
-    @GetMapping("/getUser/{id}")
-    public String getUser(@PathVariable Long id, Model model) {
-        ResponseEntity<User> userResponse = restTemplate.getForEntity(USER_REST_URL + "/" + id, User.class);
-        model.addAttribute("user", userResponse.getBody());
-        return "userDetail"; // Make sure you have a Thymeleaf template for this
+        try {
+            database.addUser(email, password, name);
+            Long userId = database.findUserAccount(email).getUserID();
+
+            Long roleId = database.getRoleId("ROLE_USER");
+            database.addRole(userId, roleId);
+
+            return "redirect:/login";
+        } catch (Exception e) {
+            model.addAttribute("error", "Registration failed: " + e.getMessage());
+            return "register";
+        }
     }
 
-    @GetMapping("/getTicket/{id}")
-    public String getTicket(@PathVariable Long id, Model model) {
-        ResponseEntity<Ticket> ticketResponse = restTemplate.getForEntity(TICKET_REST_URL + "/" + id, Ticket.class);
-        model.addAttribute("ticket", ticketResponse.getBody());
-        return "ticketDetail"; // Make sure you have a Thymeleaf template for this
+    @GetMapping("/login")
+    public String login() {
+        return "login";
     }
-
-    // ... Additional methods as needed
 }

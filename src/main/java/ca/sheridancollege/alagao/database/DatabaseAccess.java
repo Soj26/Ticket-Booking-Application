@@ -117,6 +117,7 @@ public class DatabaseAccess {
                 .addValue("purchaseCount", user.getPurchaseCount());
         jdbc.update(query, parameters);
     }
+
     public void deleteUser(Long userID) {
         String query = "DELETE FROM sec_user WHERE userID = :userID";
         MapSqlParameterSource parameters = new MapSqlParameterSource().addValue("userID", userID);

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Ticket</title>
+  <!-- Include CSS -->
+</head>
+<body>
+
+<h1>Edit Ticket</h1>
+
+<form th:action="@{/secured/admin/editTicket}" th:object="${ticket}" method="post">
+  <input type="hidden" th:field="*{ticketID}" />
+
+  <label for="ticketTitle">Title:</label>
+  <input type="text" th:field="*{ticketTitle}" id="ticketTitle" required />
+
+  <label for="flightDetails">Flight Details:</label>
+  <input type="text" th:field="*{flightDetails}" id="flightDetails" required />
+
+  <label for="seatNumber">Seat Number:</label>
+  <input type="text" th:field="*{seatNumber}" id="seatNumber" required />
+
+  <label for="price">Price:</label>
+  <input type="number" th:field="*{price}" id="price" required />
+
+  <label for="numberOfSeats">Number of Seats:</label>
+  <input type="number" th:field="*{numberOfSeats}" id="numberOfSeats" required />
+
+  <input type="submit" value="Save Changes" />
+</form>
+
+<a th:href="@{/secured/admin/editTicket}">Return to Dashboard</a>
+
+</body>
+</html>

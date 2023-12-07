@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!-- Add your head content here -->
+</head>
+<body>
+<h1>Edit User</h1>
+<form th:action="@{/secured/admin/editUser/{userId}(userId=${user.userId})}" method="post">
+  <!-- User fields to edit -->
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name" th:field="*{name}" required>
+
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" th:field="*{i}" required>
+
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password" th:field="*{encryptedPassword}">
+
+  <!-- Add other user fields here -->
+
+  <button type="submit">Save</button>
+</form>
+</body>
+</html>

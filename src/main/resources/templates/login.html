@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Login Page</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
-<h1>Login here</h1>
+
+<h1>Login Here</h1>
+
 <div class="form-block">
     <form method="post" th:action="@{/login}">
         <div th:if="${param.error}" class="error">
@@ -15,11 +17,19 @@
         <div th:if="${param.logout}" class="success">
             You have been logged out
         </div>
-        Email: <input type="email" name="username"><br>
-        Password: <input type="password" name="password"><br>
-        <input type="submit" value="Login">
+        <div class="form-group">
+            <label for="username">Email:</label>
+            <input type="email" id="username" name="username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
+        </div>
+        <input type="submit" value="Login" class="btn-submit">
     </form>
 </div>
-<p><a th:href="@{/}">Back to home page</a></p>
+
+<p><a th:href="@{/}" class="back-home">Back to home page</a></p>
+
 </body>
 </html>

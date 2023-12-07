@@ -21,18 +21,21 @@
 
         <label for="balance">Balance:</label>
         <input type="number" id="balance" th:field="*{balance}" min="0.0" step="0.01" required />
-
-        <label for="enabled">Enabled:</label>
-        <select id="enabled" th:field="*{enabled}">
-            <option value="true">Yes</option>
-            <option value="false" selected>No</option>
+        <label for="role">Role:</label>
+        <select id="role" name="role">
+            <option value="ROLE_USER">User</option>
+            <option value="ROLE_ADMIN">Admin</option>
         </select>
+        <label for="enabled">Enabled:</label>
+    <select id="enabled" th:field="*{enabled}">
+        <option value="true">Yes</option>
+        <option value="false" selected>No</option>
+    </select>
 
-        <button type="submit">Add User</button>
+    <button type="submit">Add User</button>
     </form>
-
-    <a href="@{/secured/admin/adminIndex}">Return to Dashboard</a>
 </main>
-
+<a th:href="@{/logout}">Logout</a>
+<a href="@{/secured/admin/adminIndex}">Return to Dashboard</a>
 </body>
 </html>

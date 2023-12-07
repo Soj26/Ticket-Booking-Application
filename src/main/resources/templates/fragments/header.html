@@ -2,11 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Header</title>
+  <title>Flight Reservation Header</title>
+  <link rel="stylesheet" th:href="@{/css/mainIndex.css}" />
 </head>
 <body>
 <div th:fragment="header">
-  <!-- Header content here -->
+  <div class="header-container">
+    <img src="/img/ticket1.jpg" alt="Logo" class="logo"/>
+    <h1>FLIGHT RESERVATION Application</h1>
+  </div>
 </div>
 </body>
 </html>
