@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Transaction Fragment</title>
+</head>
+<body>
+<!-- Transaction History Fragment -->
+<div th:fragment="transactionHistory">
+    <h2>Transaction Summary</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Transaction Detail</th>
+            <th>Amount</th>
+            <th>Balance After</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${transactionDetails.date}">01/01/2023</td>
+            <td th:text="${transactionDetails.detail}">Purchase Ticket</td>
+            <td th:text="'$' + ${transactionDetails.amount}">-$350.00</td>
+            <td th:text="'$' + ${transactionDetails.balanceAfter}">$650.00</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
