@@ -36,6 +36,7 @@ public class SecurityConfig {
                 .authorizeRequests(auth -> auth
                         .requestMatchers(mvcMatcher.pattern("/secured/admin/**")).hasAuthority("ROLE_ADMIN")
                         .requestMatchers(mvcMatcher.pattern("/secured/user/**")).hasAuthority("ROLE_USER")
+                        .requestMatchers("/secured/user/transaction").hasAuthority("ROLE_USER")
                         .requestMatchers(mvcMatcher.pattern("/register")).permitAll()
                         .requestMatchers(mvcMatcher.pattern("/login")).permitAll()
                         .requestMatchers(mvcMatcher.pattern("/")).permitAll()
