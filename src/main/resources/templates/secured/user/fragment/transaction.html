@@ -1,31 +1,34 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Transaction Fragment</title>
+    <meta charset="UTF-8">
+    <title>Transaction Summary</title>
+    <!-- Ensure the path to the CSS is correct -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-<!-- Transaction History Fragment -->
-<div th:fragment="transactionHistory">
-    <h2>Transaction Summary</h2>
-    <table>
-        <thead>
-        <tr>
-            <th>Date</th>
-            <th>Transaction Detail</th>
-            <th>Amount</th>
-            <th>Balance After</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td th:text="${transactionDetails.date}">01/01/2023</td>
-            <td th:text="${transactionDetails.detail}">Purchase Ticket</td>
-            <td th:text="'$' + ${transactionDetails.amount}">-$350.00</td>
-            <td th:text="'$' + ${transactionDetails.balanceAfter}">$650.00</td>
-        </tr>
-        </tbody>
-    </table>
+
+<div th:fragment="transaction">
+    <main>
+        <h1>Transaction Summary</h1>
+
+        <div th:if="${successMessage != null}" class="alert alert-success">
+            <p th:text="${successMessage}"></p>
+        </div>
+
+        <div th:if="${totalCost != null}">
+            <p>Total Cost: <span th:text="'$' + ${totalCost}"></span></p>
+        </div>
+
+        <div th:if="${newBalance != null}">
+            <p>New Balance: <span th:text="'$' + ${newBalance}"></span></p>
+        </div>
+
+        <a th:href="@{/secured/user/userIndex}">Back to Dashboard</a>
+    </main>
 </div>
 
+<!-- Ensure the path to the JS is correct -->
+<script th:src="@{/js/script.js}"></script>
 </body>
 </html>
