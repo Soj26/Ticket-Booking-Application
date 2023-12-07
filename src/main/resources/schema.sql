@@ -38,3 +38,4 @@ CREATE TABLE tickets (
                          available BOOLEAN NOT NULL DEFAULT TRUE,
                          CONSTRAINT fk_ticket_user FOREIGN KEY (userID) REFERENCES sec_user(userID)
 );
+ALTER TABLE tickets ALTER COLUMN timestamp SET DEFAULT CURRENT_TIMESTAMP;

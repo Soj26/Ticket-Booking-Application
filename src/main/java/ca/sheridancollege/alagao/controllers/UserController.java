@@ -5,6 +5,8 @@ import ca.sheridancollege.alagao.beans.User;
 import ca.sheridancollege.alagao.database.DatabaseAccess;
 import ca.sheridancollege.alagao.database.TicketDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

@@ -196,4 +196,9 @@ public class DatabaseAccess {
             return users.get(0);
         }
     }
+    public List<User> findAllUsers() {
+        String query = "SELECT * FROM sec_user";
+        List<User> users = jdbc.query(query, new BeanPropertyRowMapper<>(User.class));
+        return users;
+    }
 }

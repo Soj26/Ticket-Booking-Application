@@ -1,23 +1,49 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Admin Dashboard</title>
-</head>
-<body>
+<!-- Section for managing tickets -->
+<section>
+    <h2>Manage Tickets</h2>
+    <div>
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Details</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+            <tr th:each="ticket : ${tickets}">
+                <td th:text="${ticket.ticketTitle}">Sample Title</td>
+                <td th:text="${ticket.flightDetails}">Sample Details</td>
+                <td th:text="${ticket.price}">100</td>
+                <td>
+                    <a th:href="@{/secured/admin/editTicketForm/{ticketID}(ticketID=${ticket.ticketID})}">Edit</a>
+                    <a th:href="@{/secured/admin/deleteTicket/{ticketID}(ticketID=${ticket.ticketID})}">Delete</a>
+                </td>
+            </tr>
+        </table>
+        <a th:href="@{/secured/admin/addTicket}">Add New Ticket</a>
+    </div>
+</section>
 
-<header>
-    <img src="your_logo.png" alt="Your Logo" width="100" height="100">
-
-    <div th:text="${currentUserLogin}" style="font-weight: bold;"></div>
-    <form action="/logout" method="post">
-        <input type="submit" value="Logout"/>
-    </form>
-</header>
-
-<main>
-    <h1>Welcome to the Admin Dashboard</h1>
-
-</main>
-
-</body>
-</html>
+<!-- Section for managing users -->
+<section>
+    <h2>Manage Users</h2>
+    <div>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Balance</th>
+                <th>Actions</th>
+            </tr>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.name}">Sample Name</td>
+                <td th:text="${user.email}">Sample Email</td>
+                <td th:text="${user.balance}">0.00</td>
+                <td>
+                    <a th:href="@{/secured/admin/editUserForm/{userID}(userID=${user.userID})}">Edit</a>
+                    <a th:href="@{/secured/admin/deleteUser/{userID}(userID=${user.userID})}">Delete</a>
+                </td>
+            </tr>
+        </table>
+        <a th:href="@{/secured/admin/addUser}">Add New User</a>
+    </div>
+</section>

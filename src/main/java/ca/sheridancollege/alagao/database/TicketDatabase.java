@@ -86,7 +86,9 @@ public class TicketDatabase {
 
     // Method to get all tickets
     public List<Ticket> findAllTickets() {
-        String sql = "SELECT * FROM tickets";
-        return jdbc.query(sql, new BeanPropertyRowMapper<>(Ticket.class));
+        String query = "SELECT * FROM tickets";
+        List<Ticket> tickets = jdbc.query(query, new BeanPropertyRowMapper<>(Ticket.class));
+        return tickets;
     }
+
 }

@@ -2,7 +2,7 @@ INSERT INTO sec_user(name, email, encryptedPassword, enabled, balance)
 VALUES('Loyd Alagao', 'alagao@sheridancollege.ca', '$2a$10$Nf3Iz5TbbGubtuvVOZCC.OI4yRNqil3yFhN10m6EJY0s4E2qMrEqy', TRUE, 1000.00);
 
 INSERT INTO sec_user(name, email, encryptedPassword, enabled, balance)
-VALUES('admin','admin@sheridancollege.ca','$2a$10$Nf3Iz5TbbGubtuvVOZCC.OI4yRNqil3yFhN10m6EJY0s4E2qMrEqy', TRUE, 1000.00);
+VALUES('admin','admin@sheridancollege.ca','$2a$10$Nf3Iz5TbbGubtuvVOZCC.OI4yRNqil3yFhN10m6EJY0s4E2qMrEqy', TRUE, 5000.00);
 
 
 INSERT INTO sec_role(roleName) VALUES ('ROLE_USER');
