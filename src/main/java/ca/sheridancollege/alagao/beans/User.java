@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
@@ -18,7 +20,7 @@ public class User {
     @NonNull
     private String encryptedPassword; // so will be encrypted if it is 1234 password
     @NonNull
-    private double balance;
+    private BigDecimal balance;
     @NonNull
     private Boolean enabled; //properly activater?
     private int purchaseCount;

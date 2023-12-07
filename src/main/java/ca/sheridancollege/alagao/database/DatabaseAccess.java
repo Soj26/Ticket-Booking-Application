@@ -11,10 +11,13 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Repository
 public class DatabaseAccess {
+    @Autowired
+    TicketDatabase ticketDatabase;
     @Autowired
     @Lazy
     private BCryptPasswordEncoder passenc;
@@ -136,5 +139,63 @@ public class DatabaseAccess {
                 .addValue("userID", userID)
                 .addValue("roleID", roleID);
         jdbc.update(query, parameters);
+    }
+
+    // Method to find a user by their ID
+    public User findUserAccount(Long userID) {
+        String query = "SELECT * FROM sec_user WHERE userID = :userID";
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("userID", userID);
+        List<User> users = jdbc.query(query, params, new BeanPropertyRowMapper<>(User.class));
+        return users.isEmpty() ? null : users.get(0);
+    }
+
+    // Method to update the user's balance
+    public void updateUserBalance(String email, BigDecimal newBalance) {
+        String query = "UPDATE sec_user SET balance = :balance WHERE email = :email";
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("email", email)
+                .addValue("balance", newBalance);
+        jdbc.update(query, params);
+    }
+
+
+    public boolean purchaseTicket(Long userID, Long ticketID) {
+        // Start a transaction
+        // Ensure this method is transactional to avoid inconsistent states
+        User user = findUserAccount(userID);
+        Ticket ticket = ticketDatabase.findTicketById(ticketID);
+
+        if (ticket != null && ticket.isAvailable() && user.getBalance().compareTo(ticket.getPrice()) >= 0) {
+            // Subtract ticket price from user balance
+            BigDecimal newBalance = user.getBalance().subtract(ticket.getPrice());
+            updateUserBalance(user.getEmail(), newBalance);
+
+            // Decrease the number of seats and update ticket availability if necessary
+            ticket.setNumberOfSeats(ticket.getNumberOfSeats() - 1);
+            if (ticket.getNumberOfSeats() == 0) {
+                ticket.setAvailable(false);
+            }
+            ticketDatabase.updateTicket(ticket);
+
+            // Commit the transaction
+            return true;
+        }
+
+        // If conditions not met, rollback the transaction
+        return false;
+    }
+
+    // Method to find a user by their email
+    public User findUserAccountByEmail(String email) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        String query = "SELECT * FROM sec_user WHERE email = :email";
+        params.addValue("email", email);
+        List<User> users = jdbc.query(query, params, new BeanPropertyRowMapper<>(User.class));
+        if(users.isEmpty()) {
+            return null;
+        } else {
+            return users.get(0);
+        }
     }
 }

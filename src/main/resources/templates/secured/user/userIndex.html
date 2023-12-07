@@ -1,12 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>User Dashboard</h1>
-</body>
+    <!DOCTYPE html>
+    <html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>User Dashboard</title>
+        <link rel="stylesheet" href="css/styles.css">
+    </head>
+    <body>
 
+    <div th:insert="fragments/header :: header"></div>
 
-</html>
+    <main>
+        <h1>Welcome, <span th:text="${user.name}">User</span>!</h1>
+        <h2>Your Balance: <span th:text="${user.balance}">Balance</span></h2>
+
+        <h2>Available Tickets</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Flight Details</th>
+                <th>Seat Number</th>
+                <th>Price</th>
+                <th>Timestamp</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="ticket : ${availableTickets}">
+                <td th:text="${ticket.ticketTitle}">Title</td>
+                <td th:text="${ticket.flightDetails}">Flight Details</td>
+                <td th:text="${ticket.seatNumber}">Seat Number</td>
+                <td th:text="'$' + ${ticket.price}">Price</td>
+                <td th:text="${ticket.timestamp}">Timestamp</td>
+                <form th:if="${user.balance >= ticket.price}"
+                      th:action="@{/secured/user/buyTicket/{ticketId}(ticketId=${ticket.ticketID})}"
+                      method="post">
+                    <input type="number" name="quantity" min="1" max="10" required> <!-- Adjust max as needed -->
+                    <button type="submit">Buy</button>
+                </form>
+
+                <span th:unless="${user.balance >= ticket.price}">Not enough balance</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div th:if="${success != null}" class="alert alert-success">
+            <p th:text="${success}"></p>
+        </div>
+
+        <div th:if="${error != null}" class="alert alert-danger">
+            <p th:text="${error}"></p>
+        </div>
+
+        <a th:href="@{/logout}">Logout</a>
+    </main>
+
+    <div th:insert="fragments/footer :: footer"></div>
+
+    <script src="/js/script.js"></script>
+    </body>
+    </html>

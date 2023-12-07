@@ -5,7 +5,7 @@ CREATE TABLE sec_user (
                           encryptedPassword VARCHAR(255) NOT NULL,
                           enabled BOOLEAN NOT NULL,
                           name VARCHAR(255) NOT NULL,
-                          balance DECIMAL(10, 2) DEFAULT 0.00,
+                          balance NUMERIC(10, 2) DEFAULT 0.00,
                           purchaseCount INT DEFAULT 0
 );
 
@@ -28,10 +28,12 @@ CREATE TABLE user_role (
 -- Tickets Table
 CREATE TABLE tickets (
                          ticketID BIGINT AUTO_INCREMENT PRIMARY KEY,
+                         ticketTitle VARCHAR(255) NOT NULL,
+                         timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
                          userID BIGINT NOT NULL,
                          flightDetails VARCHAR(255) NOT NULL,
                          seatNumber VARCHAR(255) NOT NULL,
-                         price DECIMAL(10, 2) NOT NULL,
+                         price NUMERIC(10, 2) NOT NULL,
                          numberOfSeats INT NOT NULL,
                          available BOOLEAN NOT NULL DEFAULT TRUE,
                          CONSTRAINT fk_ticket_user FOREIGN KEY (userID) REFERENCES sec_user(userID)

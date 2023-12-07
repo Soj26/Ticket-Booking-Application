@@ -21,11 +21,13 @@ public class TicketDatabase {
     }
     // Method to insert a new ticket
     public void insertTicket(Ticket ticket) {
-        String sql = "INSERT INTO tickets (userID, flightDetails, seatNumber, price, numberOfSeats, available) " +
-                "VALUES (:userID, :flightDetails, :seatNumber, :price, :numberOfSeats, :available)";
+        String sql = "INSERT INTO tickets (userID, ticketTitle, timestamp, flightDetails, seatNumber, price, numberOfSeats, available) " +
+                "VALUES (:userID, :ticketTitle, :timestamp, :flightDetails, :seatNumber, :price, :numberOfSeats, :available)";
 
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("userID", ticket.getUserID())
+                .addValue("ticketTitle", ticket.getTicketTitle())
+                .addValue("timestamp", ticket.getTimestamp())
                 .addValue("flightDetails", ticket.getFlightDetails())
                 .addValue("seatNumber", ticket.getSeatNumber())
                 .addValue("price", ticket.getPrice())
@@ -35,10 +37,13 @@ public class TicketDatabase {
         jdbc.update(sql, params);
     }
 
+
     // Method to update an existing ticket
     public void updateTicket(Ticket ticket) {
         String sql = "UPDATE tickets SET " +
                 "userID = :userID, " +
+                "ticketTitle = :ticketTitle, " +
+                "timestamp = :timestamp, " +
                 "flightDetails = :flightDetails, " +
                 "seatNumber = :seatNumber, " +
                 "price = :price, " +
@@ -49,6 +54,8 @@ public class TicketDatabase {
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("ticketID", ticket.getTicketID())
                 .addValue("userID", ticket.getUserID())
+                .addValue("ticketTitle", ticket.getTicketTitle())
+                .addValue("timestamp", ticket.getTimestamp())
                 .addValue("flightDetails", ticket.getFlightDetails())
                 .addValue("seatNumber", ticket.getSeatNumber())
                 .addValue("price", ticket.getPrice())
@@ -57,6 +64,7 @@ public class TicketDatabase {
 
         jdbc.update(sql, params);
     }
+
 
     // Method to delete a ticket
     public void deleteTicket(Long ticketID) {

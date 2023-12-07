@@ -14,15 +14,13 @@ import java.util.List;
 public class TicketController {
 
     @Autowired
-    private DatabaseAccess database;
-    @Autowired
     private TicketDatabase tDa;
 
     @GetMapping("/")
     public String showIndex(Model model) {
         List<Ticket> availableTickets = tDa.findAvailableTickets();
-        return "/index";
-
+        model.addAttribute("availableTickets", availableTickets);
+        return "index";  // Assuming "index" is the name of your Thymeleaf template
     }
 
 }

@@ -12,5 +12,5 @@ INSERT INTO user_role(userId, roleId) VALUES (1,1);
 INSERT INTO user_role(userId, roleId) VALUES (2,2);
 
 
-INSERT INTO tickets (userID, flightDetails, seatNumber, price, numberOfSeats, available)
-VALUES (1, 'Flight 123, Toronto to Vancouver', '12A', 350.00, 1, TRUE);
+INSERT INTO tickets (ticketTitle, timestamp, userID, flightDetails, seatNumber, price, numberOfSeats, available)
+VALUES ('Morning Flight', '2023-01-01 08:00:00', 1, 'Toronto to Vancouver', '12A', 350.00, 1, TRUE),                                                                                                                     ('Evening Flight', '2023-01-02 18:00:00', 2, 'Vancouver to Toronto', '14C', 450.00, 2, TRUE);
