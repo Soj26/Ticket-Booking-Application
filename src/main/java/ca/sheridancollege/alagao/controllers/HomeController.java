@@ -34,7 +34,7 @@ public class HomeController {
         try {
             database.addUser(email, password, name);
             Long userId = database.findUserAccount(email).getUserID();
-            // Default role is USER, admin role should be assigned internally for security
+
             Long roleId = database.getRoleId("ROLE_USER");
             database.addRole(userId, roleId);
 

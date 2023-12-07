@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import java.io.IOException;
@@ -43,12 +44,25 @@ public class SecurityConfig {
                         .requestMatchers(mvcMatcher.pattern("/imgs/**")).permitAll()
                         .requestMatchers(mvcMatcher.pattern("/**")).authenticated()
                 )
+                .csrf(csrf -> csrf.ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")))
                 .formLogin(form -> form
                         .loginPage("/login")
                         .successHandler(customSuccessHandler())
                         .permitAll()
                 )
-                .logout(logout -> logout.permitAll());
+
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .permitAll()
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET")) // to allow GET requests for logout
+                )
+                .exceptionHandling(ex -> ex
+                        .accessDeniedPage("/error/permission-denied")
+                );
+
 
         return http.build();
     }

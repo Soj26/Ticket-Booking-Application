@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Ticket {
     private Long ticketID;
-    private String ticketTitle; // Title of the ticket
-    private LocalDateTime timestamp; // Timestamp for the ticket creation or update
-    private Long userID; // Reference to the User's ID
+    private String ticketTitle;
+    private LocalDateTime timestamp;
+    private Long userID;
     private String flightDetails;
     private String seatNumber;
     private BigDecimal price;

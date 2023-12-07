@@ -20,7 +20,7 @@ public class TicketController {
     public String showIndex(Model model) {
         List<Ticket> availableTickets = tDa.findAvailableTickets();
         model.addAttribute("availableTickets", availableTickets);
-        return "index";  // Assuming "index" is the name of your Thymeleaf template
+        return "index";
     }
 
 }

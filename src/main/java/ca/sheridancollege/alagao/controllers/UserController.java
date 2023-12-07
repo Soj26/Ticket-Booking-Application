@@ -37,15 +37,15 @@
 
         @PostMapping("/buyTicket/{ticketId}")
         public String buyTicket(@PathVariable Long ticketId, Principal principal, Model model) {
-            User user = database.findUserAccountByEmail(principal.getName()); // Assuming this method exists
+            User user = database.findUserAccountByEmail(principal.getName());
             Ticket ticket = ticketDatabase.findTicketById(ticketId);
 
             if (ticket != null && ticket.isAvailable() && user.getBalance().compareTo(ticket.getPrice()) >= 0) {
-                // Subtract tickaet price from user balance
+
                 BigDecimal newBalance = user.getBalance().subtract(ticket.getPrice());
                 database.updateUserBalance(user.getEmail(), newBalance);
 
-                // Decrease the number of seats and update ticket availability if necessary
+
                 int newNumberOfSeats = ticket.getNumberOfSeats() - 1;
                 ticket.setNumberOfSeats(newNumberOfSeats);
                 if (newNumberOfSeats == 0) {

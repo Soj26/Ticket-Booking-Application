@@ -18,11 +18,11 @@ public class User {
     @NonNull
     private String email;
     @NonNull
-    private String encryptedPassword; // so will be encrypted if it is 1234 password
+    private String encryptedPassword;
     @NonNull
     private BigDecimal balance;
     @NonNull
-    private Boolean enabled; //properly activater?
+    private Boolean enabled;
     private int purchaseCount;
 
 }

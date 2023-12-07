@@ -161,8 +161,7 @@ public class DatabaseAccess {
 
 
     public boolean purchaseTicket(Long userID, Long ticketID) {
-        // Start a transaction
-        // Ensure this method is transactional to avoid inconsistent states
+
         User user = findUserAccount(userID);
         Ticket ticket = ticketDatabase.findTicketById(ticketID);
 
@@ -171,18 +170,17 @@ public class DatabaseAccess {
             BigDecimal newBalance = user.getBalance().subtract(ticket.getPrice());
             updateUserBalance(user.getEmail(), newBalance);
 
-            // Decrease the number of seats and update ticket availability if necessary
+
             ticket.setNumberOfSeats(ticket.getNumberOfSeats() - 1);
             if (ticket.getNumberOfSeats() == 0) {
                 ticket.setAvailable(false);
             }
             ticketDatabase.updateTicket(ticket);
 
-            // Commit the transaction
+
             return true;
         }
 
-        // If conditions not met, rollback the transaction
         return false;
     }
 
